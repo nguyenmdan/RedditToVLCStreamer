@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Sat Oct 25 22:10:16 PDT 2014:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.3 - (1557168): instance a816c00e-0149-4adc-ab5c-0000062939c0 
+Sat Oct 25 22:39:32 PDT 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.3 - (1557168): instance a816c00e-0149-4af7-75fe-0000062dc490 
 on database directory /Users/danielnguyen/Dropbox/Programs/Programming Workspace/Personal/RedditToVLCStreamer/VIDEOS with class loader sun.misc.Launcher$AppClassLoader@24d46ca6 
 Loaded from file:/Users/danielnguyen/Dropbox/Programs/Programming%20Workspace/Personal/RedditToVLCStreamer/lib/derby.jar
 java.vendor=Oracle Corporation

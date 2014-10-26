@@ -154,8 +154,8 @@ public class StreamerInterface extends JDialog
             db.openConnection("VIDEOS");
         } catch (SQLException e)
         {
-            //Handled by class method
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error opening database\nProgram will now close", "Critical Error", JOptionPane.ERROR_MESSAGE);
+            dispose();
         }
 
     }
@@ -179,8 +179,8 @@ public class StreamerInterface extends JDialog
             db.dbStatement.execute("CREATE TABLE " + tableName + " (url CHAR(250))");
         } catch (SQLException e)
         {
-            //Handled by class
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error opening database\nProgram will now close", "Critical Error", JOptionPane.ERROR_MESSAGE);
+            dispose();
         } catch (NullPointerException e)
         {
             //Table does not exist to be dropped, nonissue
@@ -331,6 +331,11 @@ public class StreamerInterface extends JDialog
         } catch (SQLException e)
         {
             e.printStackTrace();
+        }
+        catch (IndexOutOfBoundsException e)
+        {
+            JOptionPane.showMessageDialog(this, "Cannot Find Subreddit\nProgram will now close", "Critical Error", JOptionPane.ERROR_MESSAGE);
+            dispose();
         }
     }
 

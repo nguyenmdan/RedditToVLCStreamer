@@ -24,7 +24,6 @@ public class VLCController
     {
         try
         {
-            RedditDownloader dl = new RedditDownloader();
             Runtime.getRuntime().exec(new String[]{"open", VLCPath});
         } catch (IOException e)
         {
@@ -46,8 +45,6 @@ public class VLCController
             Runtime.getRuntime().exec(cmd);
         } catch (IOException e)
         {
-            //TODO CATCH ALL THE EXCEPTIONS PROPERLY AKA DONT BE STUPID
-
             e.printStackTrace();
         }
     }
