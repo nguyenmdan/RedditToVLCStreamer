@@ -73,7 +73,6 @@ public class VLCController
         {
             try
             {
-                //TODO: CHANGE ALL SPACE TO \s FOR WINDOWS
                 Runtime.getRuntime().exec(new String[]{VLCPath, playlist});
             } catch (IOException e)
             {
