@@ -69,23 +69,58 @@ public class StreamerInterface extends JDialog
     private boolean dirChosen = false;
     private int numOfVideos = 0;
     private String VLCDir = "";
+    final static String OS_NAME = System.getProperty("os.name");
 
     /**
      * Opens an instance of FileChooser for user to direct to VLC's file path.
      * Program will then take the file path, append with '.app' to denote app file type extension, and will
      * push entire path to textBox for later use.
      */
+
+    /*
+    File file = new File(SAVE_FILE_DIR);
+        if (!file.exists())
+        {
+            file.mkdir();
+        }
+
+     */
     private void chooseVLCDir()
     {
         final JFileChooser chooseVLCDir = new JFileChooser();
-        chooseVLCDir.setCurrentDirectory(new File("/Applications/"));
+        if (OS_NAME.startsWith("Mac"))
+        {
+            chooseVLCDir.setCurrentDirectory(new File("/Applications/"));
+        }
+        else if (OS_NAME.startsWith("Windows"))
+        {
+            //chooseVLCDir.setCurrentDirectory(new File("C:/"));
+            File testFileArch = new File("C:\\Program Files (x86)");
+            if (testFileArch.exists())
+            {
+                chooseVLCDir.setCurrentDirectory(new File("C:\\Program Files (x86)"));
+            }
+            else
+            {
+                chooseVLCDir.setCurrentDirectory(new File("C:\\Program Files"));
+            }
+
+
+        }
         chooseVLCDir.setDialogTitle("Navigate to VLC Media Player");
         int option = chooseVLCDir.showDialog(StreamerInterface.this, "Open");
         if (option == JFileChooser.APPROVE_OPTION)
         {
             dirChosen = true;
             File VLC = chooseVLCDir.getSelectedFile();
-            VLCDir = VLC.getAbsolutePath() + ".app";
+            if(OS_NAME.startsWith("Mac"))
+            {
+                VLCDir = VLC.getAbsolutePath() + ".app";
+            }
+            else if (OS_NAME.startsWith("Windows"))
+            {
+                VLCDir = VLC.getAbsolutePath();
+            }
             textFieldVLCDir.setText(VLCDir);
         }
     }
@@ -221,7 +256,6 @@ public class StreamerInterface extends JDialog
         String subreddit = textFieldSubreddit.getText().toString();
         createDatabase();
         createTable(subreddit);
-        //TODO DELETE THIS LINE AFTER DEBUGGING
         DB db = new DB();
         try
         {
@@ -255,7 +289,6 @@ public class StreamerInterface extends JDialog
 
         RedditVideoParser parse = new RedditVideoParser();
 
-        //TODO FIX BUG IN LOOP, PAGE NOT ITERATING PROPERLY
         while (numOfVideos < numOfVideosMax)
         {
             listDelimURL = dl.parseXML(rawXML, REGEX_PATTERN);
@@ -268,7 +301,7 @@ public class StreamerInterface extends JDialog
             dl.saveToDisk(rawXML, saveFileName);
         }
         String playlist = dbToString(subreddit);
-        VLCController vlc = new VLCController(textFieldVLCDir.getText().toString());
+        VLCController vlc = new VLCController(textFieldVLCDir.getText().toString(), OS_NAME);
         vlc.openVLC();
         vlc.play(playlist);
 
@@ -300,7 +333,7 @@ public class StreamerInterface extends JDialog
         db.query("SELECT * FROM " + tableName);
         while (db.moreRecords())
         {
-            sb.append(db.getField("URL") + " ");
+            sb.append(db.getField("URL").trim() + " ");
         }
         return sb.toString();
     }

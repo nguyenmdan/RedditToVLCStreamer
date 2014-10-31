@@ -11,24 +11,41 @@ import java.io.IOException;
 public class VLCController
 {
     private String VLCPath;
+    private String osName;
 
-    public VLCController(String inputPath)
+    public VLCController(String inputPath, final String OS_NAME)
     {
         VLCPath = inputPath;
+        osName = OS_NAME;
     }
 
     /**
      * Opens an instance of the VLC Media Player through terminal with 'open' command
      */
+
+    //Runtime.getRuntime().exec
     public void openVLC()
     {
-        try
+        String path = "";
+        if (osName.startsWith("Mac"))
         {
-            Runtime.getRuntime().exec(new String[]{"open", VLCPath});
-        } catch (IOException e)
-        {
-            e.printStackTrace();
+            path = VLCPath;
+            try
+            {
+                Runtime.getRuntime().exec(new String[]{"open", path});
+
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
         }
+
+        else if (osName.startsWith("Windows"))
+        {
+            path = "\"" + VLCPath + "\"";
+        }
+
+
     }
 
     /**
@@ -39,13 +56,30 @@ public class VLCController
      */
     public void play(String playlist)
     {
-        try
+        String cmd = "";
+        if (osName.startsWith("Mac"))
         {
-            String cmd = VLCPath + "/Contents/MacOS/VLC " + playlist;
-            Runtime.getRuntime().exec(cmd);
-        } catch (IOException e)
-        {
-            e.printStackTrace();
+            cmd = VLCPath + "/Contents/MacOS/VLC " + playlist;
+            try
+            {
+                Runtime.getRuntime().exec(cmd);
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
         }
+
+        else if (osName.startsWith("Windows"))
+        {
+            try
+            {
+                //TODO: CHANGE ALL SPACE TO \s FOR WINDOWS
+                Runtime.getRuntime().exec(new String[]{VLCPath, playlist});
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
     }
 }
